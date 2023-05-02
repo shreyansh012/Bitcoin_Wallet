@@ -1,0 +1,151 @@
+WindowManager:
+    MainScreen:
+
+    HomeScreen:
+
+    ReceiveScreen:
+
+    SendScreen:
+
+
+<MainScreen>:
+    name: "Wallet"
+
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            font_name: "fonts/Lcd.ttf"
+            text: "BTC Wallet"
+            font_size: "50dp"
+            color: 1, .5, 1, 1
+           # text_size: 600, 600
+           # size: "100dp", "50dp"
+           # pos: "400dp", "400dp"
+           # pos_hint: { "center_x": 0.5}
+
+        Button:
+            text: "Enter"
+            size_hint: None, None
+            size: "150dp", "100dp"
+            pos_hint: {"center_x": .5, "center_y": 0.5}
+            on_release : app.root.current  = "second"
+
+
+<HomeScreen>:
+    name: "second"
+    BoxLayout:
+        orientation: "horizontal"
+
+        BoxLayout:
+            orientation: "vertical"
+
+            Label:
+                text: "Portfolio"
+                #font_size: "20dp"
+                pos_hint: {"center_x": .2}
+                size_hint: 1, 0.5
+
+            Label:
+                size_hint: 1, 7
+
+        BoxLayout:
+            spacing: "20dp"
+            orientation: "vertical"
+
+            Label:
+                #font_name: "fonts/Lcd.ttf"
+                text: root.btc_balance
+                font_size: "40dp"
+                color: 1, .5, 1, 1
+                size_hint: 1, 1
+
+            Label:
+                #font_name: "fonts/Lcd.ttf"
+                text: root.btc_usd
+                font_size: "20dp"
+                color: 1, .5, 1, 1
+                size_hint: 1, 1
+
+            Button:
+                text: "Send  -->"
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": .5}
+                #padding: "3dp"
+                on_release :
+                    app.root.current  = "send"
+                    root.manager.transition.direction = "left"
+
+            Button:
+                text: "Receive <--"
+                size_hint: 0.3, 0.3
+                pos_hint: {"center_x": .5}
+                on_release :
+                    app.root.current  = "receive"
+                    root.manager.transition.direction = "left"
+
+        BoxLayout:
+
+            orientation: "vertical"
+
+            Button:
+                #text: "Refresh"
+                background_normal: 'fonts/refresh_icon.png'
+                pos_hint: {"right": 1}
+                size_hint: .2, .2
+                on_release :
+                    root.refresh_balance()
+            Label:
+                size_hint: .2, 2
+
+
+<ReceiveScreen>:
+
+    name: "receive"
+
+    BoxLayout:
+
+        #spacing: "20dp"
+
+        orientation: "vertical"
+
+        BoxLayout:
+            Button:
+                text: "Back"
+                size_hint: 0, .3
+                on_release :
+                    app.root.current  = "second"
+                    root.manager.transition.direction = "right"
+            Label:
+            Label:
+
+        AsyncImage:
+            source: f"https://quickchart.io/qr?text={root.get_address()}&size=200"
+            size_hint_y: 1.9
+
+        Label:
+            text: f"{root.get_address()}"
+            size_hint: 1, 2
+            font_size: "20dp"
+
+        BoxLayout:
+
+            Label:
+                size_hint: 1, 1
+
+            Button:
+                text: "Copy"
+                on_press: app.copy_to_clipboard()
+                on_release: root.show_copied_to_clipboard()
+                size_hint: 0.5, 0.5
+
+            Label:
+                size_hint: 1, 1
+
+
+<SendScreen>:
+    name: "send"
+
+
+
+
